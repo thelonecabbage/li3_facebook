@@ -1,3 +1,6 @@
 [submodule "libraries/facebook_php_sdk"]
 	path = libraries/facebook_php_sdk
 	url = git://github.com/facebook/facebook-php-sdk.git
+[submodule "libraries/JAXL"]
+	path = libraries/JAXL
+	url = git://github.com/abhinavsingh/JAXL.git
