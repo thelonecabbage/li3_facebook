@@ -25,4 +25,18 @@ Libraries::add('facebook_php_sdk', array(
 	}
 ));
 
+
+Libraries::add('JAXL', array(
+	'bootstrap' => false,
+	'path' => dirname(__DIR__) . '/libraries/JAXL/',
+	'prefix' => '',
+	'defer' => true,
+	'transform' => function($class, $config) {
+		$class = strtolower($class);
+		$file = $config['path'] . $class . $config['suffix'];
+		if (file_exists($file)) {
+			return $file;
+		}
+	}
+));
 ?>
