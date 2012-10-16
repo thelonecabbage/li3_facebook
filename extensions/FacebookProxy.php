@@ -76,7 +76,7 @@ class FacebookProxy extends \lithium\core\StaticObject {
 		return static::$_user = static::run('api', '/me');
 	}
 
-	public static function getJAXL ($fbid, $accesToken) {
+	public static function getJAXL ($fbid, $accessToken) {
 		if (!isset(static::$_jaxl[$fbid])){
 				static::$_jaxl[$fbid] = new JAXL(array(
 					// (required) credentials
@@ -105,7 +105,7 @@ class FacebookProxy extends \lithium\core\StaticObject {
 		$accessToken = !empty($options['token']) ?  $options['token'] : self::getAccessToken();
 
 		$client = self::getJAXL($from_fbid, $accessToken);
-		$client->add_cb('on_auth_success', function() use ($client) {
+		$client->add_cb('on_auth_success', function() use ($client, $body, $to_fbid, $options) {
 			//_info("got on_auth_success cb, jid ".$client->full_jid->to_string());
 			//$client->set_status("available!", "dnd", 10);
 			$client->send_chat_msg($to_fbid, $body);
@@ -114,7 +114,7 @@ class FacebookProxy extends \lithium\core\StaticObject {
 			}
 		});
 
-		$client->add_cb('on_auth_failure', function($reason) use ($client) {
+		$client->add_cb('on_auth_failure', function($reason) use ($client, $body, $to_fbid, $options) {
 			$client->send_end_stream();
 			if (isset($options['onError'])) {
 				$options['onError'](compact('client', 'to_fbid', 'from_fbid', 'body'));
